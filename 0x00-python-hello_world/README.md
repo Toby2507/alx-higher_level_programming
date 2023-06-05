@@ -55,3 +55,19 @@ by a new line with a maximum of 98 characters.
 ## 10-check_cycle.c, lists.h
 
 This is a function in C that checks if a singly linked list has a cycle in it.
+
+## 100-write.py
+
+This is a Python script that prints exactly and that piece of art is useful -
+Dora Korpar, 2015-10-19, followed by a new line using the sys.write function.
+
+## 101-compile
+
+This is a script that compiles a Python script file.
+The Python file name will be stored in the environment variable $PYFILE
+The output filename has to be $PYFILEc (ex: export PYFILE=my_main.py => output filename: my_main.pyc)
+
+## 102-magic_calculation.py
+
+This is a Python function def magic_calculation(a, b): that does exactly the
+same as the following Python bytecode.
