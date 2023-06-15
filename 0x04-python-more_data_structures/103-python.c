@@ -8,20 +8,30 @@
  */
 void print_python_bytes(PyObject *p)
 {
-	Py_ssize_t i, size = PyBytes_Size(p), maxBytes = (size < 10) ? size : 10;
+	unsigned char i, size;
+	PyBytesObject *byte = (PyBytesObject *)p;
 
-	if (!PyBytes_Check(p))
+	printf("[.] bytes object info\n");
+	if (strcmp(p->ob_type->tp_name, "bytes"))
 	{
-		fprintf(stderr, "[ERROR] Invalid Python bytes object.\n");
+		printf("  [ERROR] Invalid Bytes Object\n");
 		return;
 	}
-	printf("[.] bytes object info\n");
 	printf("  size: %ld\n", size);
 	printf("  trying string: %s\n", PyBytes_AsString(p));
-	printf("  first %ld bytes: ", maxBytes);
+	if (((PyVarObject *)p)->ob_size > 10)
+		size = 10;
+	else
+		size = ((PyVarObject *)p)->ob_size + 1;
+	printf("  first %ld bytes: ", size);
 	for (i = 0; i < maxBytes; i++)
-		printf(" %02x", (unsigned char)PyBytes_AsString(p)[i]);
-	printf("\n");
+	{
+		printf("%02hhx", bytes->ob_sval[i]);
+		if (i == (size - 1))
+			printf("\n");
+		else
+			printf(" ");
+	}
 }
 
 /**
@@ -30,23 +40,21 @@ void print_python_bytes(PyObject *p)
  */
 void print_python_list(PyObject *p)
 {
-	Py_ssize_t i, size = PyList_Size(p);
+	int i, size, alloc;
+	const char *type;
+	PyListObject *list = (PyListObject *)p;
+	PyVarObject *var = (PyVarObject *)p;
 
-	if (!PyList_Check(p))
-	{
-		fprintf(stderr, "[ERROR] Invalid Python list object.\n");
-		return;
-	}
+	size = var->ob_size;
+	alloc = list->allocate;
 	printf("[*] Python list info\n");
-	printf("[*] Size of the list = %ld\n", size);
-	printf("[*] Allocated = %ld\n", ((PyListObject *)p)->allocated);
+	printf("[*] Size of the Python list = %d\n", size);
+	printf("[*] Allocated = %d\n", alloc);
 	for (i = 0; i < size; i++)
 	{
-		PyObject *item = PyList_GET_ITEM(p, i);
-		const char *itemType = item->ob_type->tp_name;
-
-		printf("Element %ld: %s\n", i, itemType);
-		if (strcmp(itemType, "bytes") == 0)
-			print_python_bytes(item);
+		type = list->ob_item[i]->ob_type->tp_name;
+		printf("Element %ld: %s\n", i, type);
+		if (strcmp(type, "bytes") == 0)
+			print_python_bytes(list->ob_item[i]);
 	}
 }
