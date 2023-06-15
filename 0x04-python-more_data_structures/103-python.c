@@ -1,6 +1,4 @@
 #include <Python.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 /**
  * print_python_bytes - prints python bytes objests
