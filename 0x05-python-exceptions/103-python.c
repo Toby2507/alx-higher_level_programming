@@ -11,11 +11,11 @@ void print_python_float(PyObject *p);
 void print_python_list(PyObject *p)
 {
 	Py_ssize_t size, alloc, i;
-	const char *type;
+	const char *o_type;
 	PyListObject *list = (PyListObject *)p;
-	PyVarObject *var = (PyVarObject *)p;
+	PyVarObject *obj = (PyVarObject *)p;
 
-	size = var->ob_size;
+	size = obj->ob_size;
 	alloc = list->allocated;
 
 	fflush(stdout);
@@ -33,7 +33,7 @@ void print_python_list(PyObject *p)
 	for (i = 0; i < size; i++)
 	{
 		type = list->ob_item[i]->ob_type->tp_name;
-		printf("Element %ld: %s\n", i, type);
+		printf("Element %ld: %s\n", i, o_type);
 		if (strcmp(type, "bytes") == 0)
 			print_python_bytes(list->ob_item[i]);
 		else if (strcmp(type, "float") == 0)
