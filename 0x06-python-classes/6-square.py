@@ -1,72 +1,66 @@
 #!/usr/bin/python3
-"""
-This module contains a class called Square that defines a square.
-It is based on file 4-square.py
-"""
+"""Square file"""
 
 
 class Square:
-    """A class representing a square.
+    """Square class"""
 
-    Methods:
-        area(self): Calculates and returns the area of the square
-        my_print(self): Prints the square in character #
-    """
-    def __init__(self, size=0, position=(0, 0)):
-        """Initializes the square"""
-        self.__size = size
+    def __init__(self, n=0, position=(0, 0)):
+        """class constructor"""
+        if type(n) is not int:
+            raise TypeError('size must be an integer')
+        if n < 0:
+            raise ValueError('size must be >= 0')
+        self.__size = n
+        if type(position) is not tuple or len(position) != 2:
+            raise TypeError('position must be a tuple of 2 positive integers')
+        if type(position[0]) is not int or type(position[-1]) is not int:
+            raise TypeError('position must be a tuple of 2 positive integers')
+        if position[0] < 0 or position[-1] < 0:
+            raise TypeError('position must be a tuple of 2 positive integers')
         self.__position = position
+
+    def area(self):
+        """Area calculation"""
+        return self.__size ** 2
 
     @property
     def size(self):
-        """int: Size of the square
-
-        Size has to be a positive integer
-        """
+        """size getter"""
         return self.__size
 
     @size.setter
-    def size(self, size):
-        if not isinstance(size, int):
-            raise TypeError("size must be an integer")
-        if size < 0:
-            raise ValueError("size must be >= 0")
-        self.__size = size
+    def size(self, n):
+        """size setter"""
+        if type(n) is not int:
+            raise TypeError('size must be an integer')
+        if n < 0:
+            raise ValueError('size must be >= 0')
+        self.__size = n
 
     @property
     def position(self):
-        """:obj:`tuple` of `int`: position to start printing from
-
-        Has to be a tuple of positive numbers
-        """
+        """position getter"""
         return self.__position
 
     @position.setter
-    def position(self, pos):
-        a, b = pos
-        err = "position must be a tuple of 2 positive integers"
-        if isinstance(pos, tuple) and len(pos) == 2 and a >= 0 and b >= 0:
-            if not isinstance(a, int) or not isinstance(b, int):
-                raise TypeError(err)
-            self.__position = pos
-        else:
-            raise TypeError(err)
-
-    def area(self):
-        """Calculates the area of the square
-
-        Returns:
-            int: The area of the circle
-        """
-        return self.size ** 2
+    def position(self, position):
+        """position setter"""
+        if type(position) is not tuple or len(position) != 2:
+            raise TypeError('position must be a tuple of 2 positive integers')
+        if type(position[0]) is not int or type(position[-1]) is not int:
+            raise TypeError('position must be a tuple of 2 positive integers')
+        if position[0] < 0 or position[-1] < 0:
+            raise TypeError('position must be a tuple of 2 positive integers')
+        self.__position = position
 
     def my_print(self):
-        """Prints the square in character #"""
+        """print square with # and spaces"""
         if self.__size == 0:
             print()
             return
         for _ in range(self.position[-1]):
             print()
         for _ in range(self.size):
-            print(" " *self.position[0], end="")
+            print(" " * self.position[0], end="")
             print("#" * self.size)

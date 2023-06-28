@@ -1,15 +1,18 @@
 #!/usr/bin/python3
-"""
-This module contains the class definition of a Linked list Node
-"""
+"""Singly linked list implementation"""
 
 
 class Node:
-    """Defines the Nodes of a Linked List"""
-    def __init__(self, data, next_node=None):
-        """Initializes the node"""
-        self.__data = data
-        self.__next_node = next_node
+    """Node class"""
+
+    def __init__(self, n, nxt_n=None):
+        """constructor"""
+        if type(n) is not int:
+            raise TypeError('data must be an integer')
+        self.__data = n
+        if nxt_n is not None and type(nxt_n) is not Node:
+            raise TypeError('next_node must be a Node object')
+        self.__next_node = nxt_n
 
     @property
     def data(self):
@@ -17,11 +20,11 @@ class Node:
         return self.__data
 
     @data.setter
-    def data(self, data):
+    def data(self, n):
         """data setter"""
-        if not isinstance(data, int):
-            raise TypeError("data must be an integer")
-        self.__data = data
+        if type(n) is not int:
+            raise TypeError('data must be an integer')
+        self.__data = n
 
     @property
     def next_node(self):
@@ -31,16 +34,17 @@ class Node:
     @next_node.setter
     def next_node(self, node):
         """next_node setter"""
-        if next_node != None or not isinstance(node, Node):
-            raise TypeError("next_node must be a Node object")
+        if node is not None and type(node) is not Node:
+            raise TypeError('next_node must be a Node object')
         self.__next_node = node
 
 
 class SinglyLinkedList:
-    """Defines a singly linked list"""
+    """ Single linked list class"""
+
     def __init__(self):
-       """constructor"""
-       self.__head: Node = none
+        """constructor"""
+        self.__head: Node = None
 
     def __str__(self):
         """to string method"""
@@ -52,12 +56,12 @@ class SinglyLinkedList:
         return '\n'.join(s)
 
     def sorted_insert(self, value):
-        """inserts a new node to the list in a sorted format"""
+        """public method that insert a new node to the list in sorted way"""
         new_node: Node = Node(value)
         if self.__head is None:
             self.__head = new_node
             return
-        if value < self.__head.data:
+        elif value < self.__head.data:
             new_node.next_node = self.__head
             self.__head = new_node
             return
